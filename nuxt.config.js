@@ -50,7 +50,18 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    proxy: true,
     baseURL: '/'
+  },
+
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000/api/1_0',
+      // target: 'http://192.168.5.243:3000/api/1_0',
+      // target: 'http://smartcity:3000/api/1_0',
+      // changeOrigin: false,
+      pathRewrite: { '^/api': '' }
+    }
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
