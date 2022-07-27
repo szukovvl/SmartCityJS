@@ -78,7 +78,7 @@
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <FacilitiesESComponent :items="items" />
+        <FacilitiesESComponent :is-reload="gamestep === 1" />
       </v-stepper-content>
 
       <v-stepper-content step="3">
@@ -111,7 +111,6 @@
 <script>
 import GameWelcomComponent from '~/components/game/welcome.vue'
 import FacilitiesESComponent from '~/components/game/facilities-es.vue'
-import { API_ENERGY_SERVICE_FIND } from '~/assets/helpers'
 
 export default {
   name: 'GamePage',
@@ -124,8 +123,7 @@ export default {
   layout: 'game',
 
   data: () => ({
-    gamestep: 0,
-    items: []
+    gamestep: 0
   }),
 
   computed: {
@@ -135,39 +133,13 @@ export default {
   },
 
   watch: {
-    gamestep (v) {
-      if (v === 1) {
-        this.loadConsumers()
-      }
-    }
   },
 
   created () {
-    /* eslint-disable no-console */
-    console.log('создан...')
-    /* eslint-enable no-console */
     setTimeout(() => { this.repeat() }, 5000)
   },
 
   methods: {
-    loadConsumers () {
-      this.$axios.$get(API_ENERGY_SERVICE_FIND + '/CONSUMER', { progress: false })
-        .then((v) => {
-          /* eslint-disable no-console */
-          console.log(v)
-          /* eslint-enable no-console */
-          this.items = v
-        })
-        .catch((error) => {
-          this.items = []
-          /* eslint-disable no-console */
-          if (error.response) {
-            console.error('ошибка %d: %s', error.response.status, error.response.data)
-          }
-          /* eslint-enable no-console */
-        })
-    },
-
     repeat () {
       this.gamestep++
       this.gamestep %= 8
