@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors'
+// import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -14,6 +14,10 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+
+  server: {
+    port: 3010 // default: 3000
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -52,7 +56,7 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      lang: 'ru'
     }
   },
 
@@ -60,8 +64,8 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
-      themes: {
+      dark: false
+      /* themes: {
         dark: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
@@ -71,7 +75,7 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
         }
-      }
+      } */
     }
   },
 
