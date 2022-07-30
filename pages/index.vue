@@ -9,7 +9,7 @@ export default {
   name: 'IndexPage',
 
   created () {
-    setTimeout(() => this.Redirect(), 3000)
+    setTimeout(() => this.Redirect(), 10000)
   },
 
   methods: {

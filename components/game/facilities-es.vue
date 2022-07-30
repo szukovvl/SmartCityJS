@@ -44,9 +44,9 @@ export default {
 
   watch: {
     isReload (v) {
-      if (v) {
+      /* if (v) {
         this.loadComponents()
-      }
+      } */
     }
   },
 
