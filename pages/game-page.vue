@@ -136,14 +136,14 @@ export default {
   },
 
   created () {
-    setTimeout(() => { this.repeat() }, 10000)
+    // setTimeout(() => { this.repeat() }, 10000)
   },
 
   methods: {
     repeat () {
       this.gamestep++
       this.gamestep %= 8
-      setTimeout(() => { this.repeat() }, 10000)
+      // setTimeout(() => { this.repeat() }, 10000)
     }
   }
 }

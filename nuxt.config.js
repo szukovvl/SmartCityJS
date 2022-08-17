@@ -17,7 +17,7 @@ export default {
   },
 
   server: {
-    port: 3010 // default: 3000
+    port: 80 // default: 3000
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -57,10 +57,17 @@ export default {
   proxy: {
     '/api': {
       // target: 'http://localhost:3000/api/1_0',
-      target: 'http://192.168.5.241:3000/api/1_0',
-      // target: 'http://smartcity:3000/api/1_0',
+      // target: 'http://192.168.5.241:3000/api/1_0',
+      target: 'http://smartcity:3000/api/1_0',
       // changeOrigin: false,
       pathRewrite: { '^/api': '' }
+    },
+    '/wsapi': {
+      // target: 'ws://localhost:3000/wsapi/1_0/topics',
+      // target: 'ws://192.168.5.241:3000/wsapi/1_0/topics',
+      target: 'http://smartcity:3000/wsapi/1_0/topics',
+      ws: true,
+      pathRewrite: { '^/wsapi': '' }
     }
   },
 
