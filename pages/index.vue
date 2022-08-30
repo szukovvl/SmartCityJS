@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { ADMIN_PORT } from '~/assets/helpers'
-
 export default {
   name: 'IndexPage',
 
