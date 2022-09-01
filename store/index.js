@@ -1,6 +1,19 @@
+//
 import {
-  WS_GAME_CONTROLLER_SERVICE
+  WS_GAME_CONTROLLER_SERVICE,
+
+  GAME_STATUS_NONE,
+  GAME_STATUS_SCENE_1,
+
+  GAME_EVENT_STATUS,
+  GAME_EVENT_ERROR,
+  GAME_EVENT_SCENE_IDENTIFY,
+  GAME_EVENT_SCENES_DATA,
+  GAME_EVENT_GAMER_ENTER
 } from '~/assets/helpers'
+
+//
+const LS_GAMER_KEY = 'gamer_key'
 
 //
 let connection
@@ -35,6 +48,15 @@ function wsGameController (context) {
   }
 }
 
+function sendEventMessage (event, message) {
+  if (connection !== undefined) {
+    connection.send(JSON.stringify({
+      type: event,
+      payload: message
+    }))
+  }
+}
+
 //
 export const state = () => ({
   isConnected: false,
@@ -45,7 +67,9 @@ export const state = () => ({
     guestsCount: 0
   },
   sceneNumber: 0,
-  scenesData: []
+  scenesData: [],
+  hasGamer: false,
+  gamerKey: undefined
 })
 
 //
@@ -67,9 +91,14 @@ function internalSetState (state, data) {
   }
 }
 
+function internalEnterGamerMode (state, data) {
+  /* eslint-disable no-console */
+  console.warn('GAME_EVENT_GAMER_ENTER', data)
+  /* eslint-enable no-console */
+}
 //
 export const mutations = {
-  setConnetted (state, data) {
+  setConnected (state, data) {
     state.isConnected = data
     if (data) {
       state.errorEvent = undefined
@@ -93,16 +122,27 @@ export const mutations = {
       case GAME_EVENT_SCENES_DATA:
         state.scenesData = data.data
         break
+      case GAME_EVENT_GAMER_ENTER:
+        internalEnterGamerMode(state, data)
+        break
       default:
         /* eslint-disable no-console */
         console.warn('translateEvent - необработанное', data)
         /* eslint-enable no-console */
     }
   },
+  setGamerMode (state, data) {
+    if (!state.hasGamer) {
+      sendEventMessage(GAME_EVENT_GAMER_ENTER, localStorage.getItem(LS_GAMER_KEY))
+    }
+  }
 }
 
 export const actions = {
   initializeGameController (context) {
     setTimeout(() => { wsGameController(this) }, 1000)
   },
+  setGamerMode (context) {
+    context.commit('setGamerMode')
+  }
 }

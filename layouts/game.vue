@@ -55,6 +55,20 @@ export default {
 
   data: () => ({
     connectionFail: false
-  })
+  }),
+
+  computed: {
+    isConnected () {
+      return this.$store.state.isConnected
+    }
+  },
+
+  watch: {
+    isConnected (v) {
+      if (v) {
+        this.$store.dispatch('setGamerMode')
+      }
+    }
+  }
 }
 </script>
