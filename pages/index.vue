@@ -14,15 +14,23 @@ export default {
   computed: {
     sceneNumber () {
       return this.$store.state.sceneNumber
+    },
+    hasGamer () {
+      return this.$store.state.hasGamer
     }
   },
 
   watch: {
     sceneNumber (newval, oldval) {
-      if (oldval === 0) {
+      if (oldval === 0 && this.hasGamer) {
         if (newval !== 0) {
           this.$router.replace('/game-page')
         }
+      }
+    },
+    hasGamer (v) {
+      if (v && this.sceneNumber !== 0) {
+        this.$router.replace('/game-page')
       }
     }
   },

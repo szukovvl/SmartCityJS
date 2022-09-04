@@ -127,24 +127,26 @@ export default {
   }),
 
   computed: {
+    sceneNumber () {
+      return this.$store.state.sceneNumber
+    },
     step () {
       return this.gamestep + 1
     }
   },
 
   watch: {
+    sceneNumber (v) {
+      if (v === 0) {
+        this.$router.replace('/')
+      }
+    }
   },
 
   created () {
-    // setTimeout(() => { this.repeat() }, 10000)
   },
 
   methods: {
-    repeat () {
-      this.gamestep++
-      this.gamestep %= 8
-      // setTimeout(() => { this.repeat() }, 10000)
-    }
   }
 }
 </script>

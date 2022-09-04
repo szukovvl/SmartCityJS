@@ -38,7 +38,7 @@
       </a>, {{ new Date().getFullYear() }}
       <v-spacer />
       <v-icon
-        v-if="connectionFail"
+        v-if="!isConnected"
         class="red pa-1"
         size="14"
         color="white"
@@ -46,6 +46,23 @@
         mdi-connection
       </v-icon>
     </v-footer>
+
+    <v-snackbar
+      v-model="hasServiceError"
+      :timeout="-1"
+      color="error"
+    >
+      {{ errorMessage }}
+      <template #action="{ attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          @click="clearServiceErrors"
+        >
+          Закрыть
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -54,12 +71,20 @@ export default {
   name: 'GameLayout',
 
   data: () => ({
-    connectionFail: false
+    hasServiceError: false
   }),
 
   computed: {
     isConnected () {
       return this.$store.state.isConnected
+    },
+    servicesError () {
+      return this.$store.state.errorEvent
+    },
+    errorMessage () {
+      return this.$store.state.errorEvent !== undefined
+        ? this.$store.state.errorEvent.data.errorMessage
+        : 'Ошибка сервиса'
     }
   },
 
@@ -68,6 +93,15 @@ export default {
       if (v) {
         this.$store.dispatch('setGamerMode')
       }
+    },
+    servicesError () {
+      this.hasServiceError = this.$store.state.errorEvent !== undefined
+    }
+  },
+
+  methods: {
+    clearServiceErrors () {
+      this.$store.dispatch('clearErrorService')
     }
   }
 }
