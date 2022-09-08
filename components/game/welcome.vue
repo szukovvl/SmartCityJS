@@ -113,7 +113,7 @@
         :disabled="!complettedEnabled"
         @click="doCompletted"
       >
-        далее
+        готово
       </v-btn>
     </v-card-text>
   </v-card>
@@ -173,6 +173,9 @@ export default {
       this.newpartner.name = undefined
     },
     doCompletted () {
+      /* eslint-disable no-console */
+      console.log('карта завершенна', this.card)
+      /* eslint-enable no-console */
       this.$store.dispatch('sceneIdentifyComplette', this.card)
     },
     doDeletePartner (index, data) {

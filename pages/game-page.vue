@@ -1,11 +1,11 @@
 <template>
   <v-stepper
-    v-model="step"
+    v-model="gamestep"
     flat
   >
     <v-stepper-header>
       <v-stepper-step
-        :complete="step > 1"
+        :complete="sceneNumber > 1"
         step="1"
       >
         регистрация
@@ -14,7 +14,7 @@
       <v-divider />
 
       <v-stepper-step
-        :complete="step > 2"
+        :complete="sceneNumber > 2"
         step="2"
       >
         объекты ЭС
@@ -23,7 +23,7 @@
       <v-divider />
 
       <v-stepper-step
-        :complete="step > 3"
+        :complete="sceneNumber > 3"
         step="3"
       >
         портфель
@@ -32,7 +32,7 @@
       <v-divider />
 
       <v-stepper-step
-        :complete="step > 4"
+        :complete="sceneNumber > 4"
         step="4"
       >
         договора
@@ -41,7 +41,7 @@
       <v-divider />
 
       <v-stepper-step
-        :complete="step > 5"
+        :complete="sceneNumber > 5"
         step="5"
       >
         аукцион
@@ -50,7 +50,7 @@
       <v-divider />
 
       <v-stepper-step
-        :complete="step > 6"
+        :complete="sceneNumber > 6"
         step="6"
       >
         схемы ЭС
@@ -59,7 +59,7 @@
       <v-divider />
 
       <v-stepper-step
-        :complete="step > 7"
+        :complete="sceneNumber > 7"
         step="7"
       >
         анализ
@@ -78,7 +78,7 @@
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <FacilitiesESComponent :is-reload="gamestep === 1" />
+        <FacilitiesESComponent />
       </v-stepper-content>
 
       <v-stepper-content step="3">
@@ -129,14 +129,12 @@ export default {
   computed: {
     sceneNumber () {
       return this.$store.state.sceneNumber
-    },
-    step () {
-      return this.gamestep + 1
     }
   },
 
   watch: {
     sceneNumber (v) {
+      this.gamestep = v
       if (v === 0) {
         this.$router.replace('/')
       }
@@ -144,6 +142,12 @@ export default {
   },
 
   created () {
+    if (process.client) {
+      this.gamestep = this.sceneNumber
+      if (this.$store.state.scenesData.length === 0) {
+        this.$store.dispatch('loadGameData')
+      }
+    }
   },
 
   methods: {

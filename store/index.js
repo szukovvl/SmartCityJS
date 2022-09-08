@@ -4,13 +4,20 @@ import {
 
   GAME_STATUS_NONE,
   GAME_STATUS_SCENE_1,
+  GAME_STATUS_SCENE_2,
 
   GAME_EVENT_STATUS,
   GAME_EVENT_ERROR,
   GAME_EVENT_SCENE_IDENTIFY,
   GAME_EVENT_SCENES_DATA,
   GAME_EVENT_GAMER_ENTER,
-  SCENE_EVENT_COMPLETTE_IDENTIFY
+  SCENE_EVENT_COMPLETTE_IDENTIFY,
+  GAME_EVENT_SCENE_CHOICE,
+
+  ENERGYSYSTEM_OBJECT_TYPES,
+
+  API_ENERGY_SERVICE_FIND,
+  API_TARIFFS_SERVICE
 } from '~/assets/helpers'
 
 //
@@ -29,6 +36,7 @@ function wsGameController (context) {
 
   connection.onopen = () => {
     context.commit('setConnected', true)
+    internalLoadGameResources(context)
   }
 
   connection.onerror = function (event) {
@@ -60,6 +68,49 @@ function sendEventMessage (event, message) {
   }
 }
 
+function initGameResources () {
+  const res = { }
+  ENERGYSYSTEM_OBJECT_TYPES.forEach(e => (res[e.value] = []))
+  return res
+}
+
+//
+function internalLoadGameResources (context) {
+  ENERGYSYSTEM_OBJECT_TYPES.forEach(item =>
+    context.$axios.$get(API_ENERGY_SERVICE_FIND + '/' + item.value, { progress: false })
+      .then((v) => {
+        context.commit('setGameResources', { type: item.value, data: v })
+      })
+      .catch((error) => {
+        let msg
+        if (error.response) {
+          msg = 'ошибка ' + error.response.status + ': ' + error.response.data
+        } else {
+          msg = 'ошибка REST API'
+        }
+        /* eslint-disable no-console */
+        console.error(msg)
+        /* eslint-enable no-console */
+      })
+  )
+
+  context.$axios.$get(API_TARIFFS_SERVICE, { progress: false })
+    .then((v) => {
+      context.commit('setTariffsData', v)
+    })
+    .catch((error) => {
+      let msg
+      if (error.response) {
+        msg = 'ошибка ' + error.response.status + ': ' + error.response.data
+      } else {
+        msg = 'ошибка REST API'
+      }
+      /* eslint-disable no-console */
+      console.error(msg)
+      /* eslint-enable no-console */
+    })
+}
+
 //
 export const state = () => ({
   isConnected: false,
@@ -75,7 +126,9 @@ export const state = () => ({
   gamerKey: undefined,
   scriptToken: undefined,
   gameStatus: GAME_STATUS_NONE,
-  gamerCard: undefined
+  gamerCard: undefined,
+  gameResources: initGameResources(),
+  tariffs: undefined
 })
 
 //
@@ -97,6 +150,9 @@ function internalTranslateScene (state, srvstatus) {
       break
     case GAME_STATUS_SCENE_1:
       state.sceneNumber = 1
+      break
+    case GAME_STATUS_SCENE_2:
+      state.sceneNumber = 2
       break
     default:
       /* eslint-disable no-console */
@@ -153,14 +209,21 @@ export const mutations = {
         console.warn('GAME_EVENT_ERROR', data)
         /* eslint-enable no-console */
         break
-      case GAME_EVENT_SCENE_IDENTIFY:
-        internalTranslateScene(state, GAME_STATUS_SCENE_1)
-        break
       case GAME_EVENT_SCENES_DATA:
         state.scenesData = data.data
         break
       case GAME_EVENT_GAMER_ENTER:
         internalEnterGamerMode(state, data.data)
+        break
+      case GAME_EVENT_SCENE_IDENTIFY:
+        internalTranslateScene(state, GAME_STATUS_SCENE_1)
+        internalLoadGameResources(this)
+        break
+      case GAME_EVENT_SCENE_CHOICE:
+        /* eslint-disable no-console */
+        console.warn('GAME_EVENT_SCENE_CHOICE', data)
+        /* eslint-enable no-console */
+        internalTranslateScene(state, GAME_STATUS_SCENE_2)
         break
       default:
         /* eslint-disable no-console */
@@ -181,6 +244,15 @@ export const mutations = {
   },
   clearErrorService (state) {
     state.errorEvent = undefined
+  },
+  loadGameData (state) {
+    sendEventMessage(GAME_EVENT_SCENES_DATA)
+  },
+  setGameResources (state, data) {
+    state.gameResources[data.type] = data.data
+  },
+  setTariffsData (state, data) {
+    state.tariffs = data
   }
 }
 
@@ -196,5 +268,12 @@ export const actions = {
   },
   clearErrorService (context) {
     context.commit('clearErrorService')
+  },
+  loadGameData (context) {
+    if (connection !== undefined) {
+      context.commit('loadGameData')
+    } else {
+      wsGameController(this)
+    }
   }
 }
