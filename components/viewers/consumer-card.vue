@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+import 'chartjs-adapter-moment'
 import ForecastChart from '~/components/viewers/forecast-chart.vue'
 import { CHART_OPTIONS } from '~/assets/charts'
 import {
@@ -84,6 +86,8 @@ import {
 
   API_ENERGY_SERVICE_INTERPOLATE
 } from '~/assets/helpers'
+
+moment.locale('ru')
 
 export default {
   name: 'ConsumerCardComponent',
@@ -128,12 +132,12 @@ export default {
             {
               text: 'Тариф дневной зоны суток',
               value: roundToTwoAsStr(
-                this.$store.state.game.tariffs !== undefined ? this.$store.state.game.tariffs.t_zone_2.day : 0)
+                this.$store.state.tariffs !== undefined ? this.$store.state.tariffs.t_zone_2.day : 0)
             },
             {
               text: 'Тариф ночной зоны суток',
               value: roundToTwoAsStr(
-                this.$store.state.game.tariffs !== undefined ? this.$store.state.game.tariffs.t_zone_2.night : 0)
+                this.$store.state.tariffs !== undefined ? this.$store.state.tariffs.t_zone_2.night : 0)
             }
           ]
         case PRICE_CATEGORIES_CATEGORY_2_3:
@@ -141,23 +145,23 @@ export default {
             {
               text: 'Тариф пиковой зоны суток',
               value: roundToTwoAsStr(
-                this.$store.state.game.tariffs !== undefined ? this.$store.state.game.tariffs.t_zone_3.peak : 0)
+                this.$store.state.tariffs !== undefined ? this.$store.state.tariffs.t_zone_3.peak : 0)
             },
             {
               text: 'Тариф полупиковой зоны суток',
               value: roundToTwoAsStr(
-                this.$store.state.game.tariffs !== undefined ? this.$store.state.game.tariffs.t_zone_3.pp : 0)
+                this.$store.state.tariffs !== undefined ? this.$store.state.tariffs.t_zone_3.pp : 0)
             },
             {
               text: 'Тариф ночной зоны суток',
               value: roundToTwoAsStr(
-                this.$store.state.game.tariffs !== undefined ? this.$store.state.game.tariffs.t_zone_3.night : 0)
+                this.$store.state.tariffs !== undefined ? this.$store.state.tariffs.t_zone_3.night : 0)
             }
           ]
         default: return [{
           text: 'Стоимость ЭЭ',
-          value: roundToTwoAsStr(this.$store.state.game.tariffs !== undefined
-            ? this.$store.state.game.tariffs.t_total / 1000.0
+          value: roundToTwoAsStr(this.$store.state.tariffs !== undefined
+            ? this.$store.state.tariffs.t_total / 1000.0
             : 0)
         }]
       }
@@ -220,9 +224,9 @@ export default {
           } else {
             msg = 'ошибка выполнения API - интерполяция'
           }
-        /* eslint-disable no-console */
-        console.error(msg)
-        /* eslint-enable no-console */
+          /* eslint-disable no-console */
+          console.error(msg)
+          /* eslint-enable no-console */
         })
     }
   }

@@ -14,8 +14,14 @@
       <v-card-subtitle>
         Даны организатором
       </v-card-subtitle>
-      <v-card-text>
-        {{ aregiven }}
+      <v-card-text class="d-flex flex-wrap">
+        <div
+          v-for="consumer in aregiven"
+          :key="consumer.identy"
+          class="d-flex flex-nowrap"
+        >
+          <ConsumerCardComponent :consumer="consumer" />
+        </div>
       </v-card-text>
     </v-card>
   </div>
@@ -24,6 +30,7 @@
 <script>
 import MainStationMonitorControl from '~/components/viewers/main-station-monitor.vue'
 import SubstationCardControl from '~/components/viewers/substation-card.vue'
+import ConsumerCardComponent from '~/components/viewers/consumer-card.vue'
 import {
   ESO_MAINSTATION_TYPE,
   ESO_DISTRIBUTOR_TYPE,
@@ -35,7 +42,8 @@ export default {
 
   components: {
     MainStationMonitorControl,
-    SubstationCardControl
+    SubstationCardControl,
+    ConsumerCardComponent
   },
 
   data: () => ({
