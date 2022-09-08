@@ -91,3 +91,4 @@ sw.*
 
 # VS Code
 .vscode
+yarn.lock
