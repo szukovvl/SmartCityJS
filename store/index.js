@@ -13,6 +13,8 @@ import {
   GAME_EVENT_GAMER_ENTER,
   SCENE_EVENT_COMPLETTE_IDENTIFY,
   GAME_EVENT_SCENE_CHOICE,
+  GAME_EVENT_CAPTURE_OES,
+  GAME_EVENT_REFUSE_OES,
 
   ENERGYSYSTEM_OBJECT_TYPES,
 
@@ -128,7 +130,9 @@ export const state = () => ({
   gameStatus: GAME_STATUS_NONE,
   gamerCard: undefined,
   gameResources: initGameResources(),
-  tariffs: undefined
+  tariffs: undefined,
+  choiceAll: [],
+  gamerChoice: []
 })
 
 //
@@ -202,6 +206,9 @@ export const mutations = {
     switch (data.type) {
       case GAME_EVENT_STATUS:
         internalSetState(state, data)
+        if (state.hasGamer && data.data.status === GAME_STATUS_SCENE_2 && state.choiceAll.length === 0) {
+          sendEventMessage(GAME_EVENT_SCENE_CHOICE)
+        }
         break
       case GAME_EVENT_ERROR:
         state.errorEvent = data
@@ -220,9 +227,10 @@ export const mutations = {
         internalLoadGameResources(this)
         break
       case GAME_EVENT_SCENE_CHOICE:
-        /* eslint-disable no-console */
-        console.warn('GAME_EVENT_SCENE_CHOICE', data)
-        /* eslint-enable no-console */
+        state.choiceAll = data.data.items
+        state.gamerChoice = data.data.gamers !== undefined
+          ? data.data.gamers.find(e => e.key === state.gamerKey)
+          : []
         internalTranslateScene(state, GAME_STATUS_SCENE_2)
         break
       default:
@@ -253,6 +261,12 @@ export const mutations = {
   },
   setTariffsData (state, data) {
     state.tariffs = data
+  },
+  captureOes (state, data) {
+    sendEventMessage(GAME_EVENT_CAPTURE_OES, data)
+  },
+  refuseOes (state, data) {
+    sendEventMessage(GAME_EVENT_REFUSE_OES, data)
   }
 }
 
@@ -275,5 +289,16 @@ export const actions = {
     } else {
       wsGameController(this)
     }
+  },
+  checkGameController (context) {
+    if (connection === undefined) {
+      wsGameController(this)
+    }
+  },
+  captureOes (context, data) {
+    context.commit('captureOes', data)
+  },
+  refuseOes (context, data) {
+    context.commit('refuseOes', data)
   }
 }

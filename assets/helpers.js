@@ -17,6 +17,13 @@ export const ESO_CONSUMER_TYPE_DISTRICT = 'DISTRICT'
 export const ESO_CONSUMER_TYPE_INDUSTRY = 'INDUSTRY'
 
 //
+export const CONSUMER_BY_TYPES = [
+  { text: '1-й категории', value: 'HOSPITAL' },
+  { text: '2-й категории', value: 'INDUSTRY' },
+  { text: '3-й категории', value: 'DISTRICT' }
+]
+
+//
 export const VOLTAGE_LEVELS = [
   { text: 'Среднее напряжение (СН1) 35 кВ', value: 'AVG_VOLTAGE_1' },
   { text: 'Низкое напряжение (НН) 0,4 кВ', value: 'LOW_VOLTAGE' }
@@ -40,6 +47,8 @@ export const GAME_EVENT_SCENE_IDENTIFY = 'GAME_SCENE_IDENTIFY'
 export const GAME_EVENT_GAMER_ENTER = 'GAMER_ENTER'
 export const SCENE_EVENT_COMPLETTE_IDENTIFY = 'SCENE_COMPLETTE_IDENTIFY'
 export const GAME_EVENT_SCENE_CHOICE = 'GAME_SCENE_CHOICE_OES'
+export const GAME_EVENT_CAPTURE_OES = 'GAMER_CAPTURE_OES'
+export const GAME_EVENT_REFUSE_OES = 'GAMER_REFUSE_OES'
 
 //
 export const GAME_STATUS_NONE = 'NONE'
