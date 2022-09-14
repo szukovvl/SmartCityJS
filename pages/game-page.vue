@@ -17,7 +17,7 @@
         :complete="sceneNumber > 2"
         step="2"
       >
-        объекты ЭС
+        присоединение потребителей
       </v-stepper-step>
 
       <v-divider />
@@ -26,7 +26,7 @@
         :complete="sceneNumber > 3"
         step="3"
       >
-        портфель
+        подготовка к аукциону
       </v-stepper-step>
 
       <v-divider />
@@ -34,15 +34,6 @@
       <v-stepper-step
         :complete="sceneNumber > 4"
         step="4"
-      >
-        договора
-      </v-stepper-step>
-
-      <v-divider />
-
-      <v-stepper-step
-        :complete="sceneNumber > 5"
-        step="5"
       >
         аукцион
       </v-stepper-step>
