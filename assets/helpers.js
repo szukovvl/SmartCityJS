@@ -12,6 +12,10 @@ export const ENERGYSYSTEM_OBJECT_TYPES = [
 export const ESO_MAINSTATION_TYPE = 'MAINSUBSTATION'
 export const ESO_DISTRIBUTOR_TYPE = 'DISTRIBUTOR'
 export const ESO_CONSUMER_TYPE = 'CONSUMER'
+export const ESO_GENERATOR_TYPE = 'GENERATOR'
+export const ESO_GREEGENERATOR_TYPE = 'GREEGENERATOR'
+export const ESO_STORAGE_TYPE = 'STORAGE'
+export const ESO_GREENGENERATION_TYPE_SOLAR = 'SOLAR'
 
 export const ESO_CONSUMER_TYPE_DISTRICT = 'DISTRICT'
 export const ESO_CONSUMER_TYPE_INDUSTRY = 'INDUSTRY'
@@ -23,10 +27,30 @@ export const CONSUMER_BY_TYPES = [
   { text: '3-й категории', value: 'DISTRICT' }
 ]
 
+export const ALTERNATION_BY_TYPES = [
+  { text: 'солнечная', value: 'SOLAR' },
+  { text: 'ветровая', value: 'WIND' }
+]
+
 //
 export const VOLTAGE_LEVELS = [
   { text: 'Среднее напряжение (СН1) 35 кВ', value: 'AVG_VOLTAGE_1' },
   { text: 'Низкое напряжение (НН) 0,4 кВ', value: 'LOW_VOLTAGE' }
+]
+
+export const GENERATION_USAGE_MODES = [
+  { text: 'Непрерывное использование', value: 'ALWAYS' },
+  { text: 'Резервная генерация', value: 'RESERVE' }
+]
+
+export const ENERGYSTORAGE_CHARGEBEHAVIORS = [
+  { text: 'Зарядка в любое время', value: 'ANYTIME' },
+  { text: 'Зарядка только при действии низкого тарифа', value: 'LOWTARIFF' }
+]
+
+export const ENERGYSTORAGE_STATES = [
+  { text: 'Заряжено', value: 'CHARGED' },
+  { text: 'Разряжено', value: 'DISCHARGED' }
 ]
 
 //
@@ -49,11 +73,17 @@ export const SCENE_EVENT_COMPLETTE_IDENTIFY = 'SCENE_COMPLETTE_IDENTIFY'
 export const GAME_EVENT_SCENE_CHOICE = 'GAME_SCENE_CHOICE_OES'
 export const GAME_EVENT_CAPTURE_OES = 'GAMER_CAPTURE_OES'
 export const GAME_EVENT_REFUSE_OES = 'GAMER_REFUSE_OES'
+export const GAME_EVENT_SCENE_AUCTION_PREPARE = 'GAME_SCENE_AUCTION_PREPARE'
+export const GAME_EVENT_SCENE_AUCTION = 'GAME_SCENE_AUCTION'
+export const GAME_EVENT_SCENE_AUCTION_SALE = 'GAME_SCENE_AUCTION_SALE'
+export const GAME_EVENT_SCENE_AUCTION_TIME_LOT = 'GAME_SCENE_AUCTION_TIME_LOT'
 
 //
 export const GAME_STATUS_NONE = 'NONE'
 export const GAME_STATUS_SCENE_1 = 'GAMERS_IDENTIFY'
 export const GAME_STATUS_SCENE_2 = 'GAMERS_CHOICE_OES'
+export const GAME_STATUS_SCENE_3 = 'GAMERS_AUCTION_PREPARE'
+export const GAME_STATUS_SCENE_4 = 'GAMERS_AUCTION_SALE'
 
 //
 const WS_API_BASE_URL = '/wsapi'

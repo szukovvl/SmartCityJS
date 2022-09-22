@@ -5,6 +5,8 @@ import {
   GAME_STATUS_NONE,
   GAME_STATUS_SCENE_1,
   GAME_STATUS_SCENE_2,
+  GAME_STATUS_SCENE_3,
+  GAME_STATUS_SCENE_4,
 
   GAME_EVENT_STATUS,
   GAME_EVENT_ERROR,
@@ -15,6 +17,10 @@ import {
   GAME_EVENT_SCENE_CHOICE,
   GAME_EVENT_CAPTURE_OES,
   GAME_EVENT_REFUSE_OES,
+  GAME_EVENT_SCENE_AUCTION_PREPARE,
+  GAME_EVENT_SCENE_AUCTION,
+  GAME_EVENT_SCENE_AUCTION_SALE,
+  GAME_EVENT_SCENE_AUCTION_TIME_LOT,
 
   ENERGYSYSTEM_OBJECT_TYPES,
 
@@ -123,6 +129,7 @@ export const state = () => ({
     guestsCount: 0
   },
   sceneNumber: 0,
+  lotTime: 0,
   scenesData: [],
   hasGamer: false,
   gamerKey: undefined,
@@ -132,7 +139,8 @@ export const state = () => ({
   gameResources: initGameResources(),
   tariffs: undefined,
   choiceAll: [],
-  gamerChoice: []
+  gamerChoice: [],
+  auction: {}
 })
 
 //
@@ -157,6 +165,12 @@ function internalTranslateScene (state, srvstatus) {
       break
     case GAME_STATUS_SCENE_2:
       state.sceneNumber = 2
+      break
+    case GAME_STATUS_SCENE_3:
+      state.sceneNumber = 3
+      break
+    case GAME_STATUS_SCENE_4:
+      state.sceneNumber = 4
       break
     default:
       /* eslint-disable no-console */
@@ -232,6 +246,21 @@ export const mutations = {
           ? data.data.gamers.find(e => e.key === state.gamerKey)
           : []
         internalTranslateScene(state, GAME_STATUS_SCENE_2)
+        break
+      case GAME_EVENT_SCENE_AUCTION_PREPARE:
+        state.auction = data.data
+        internalTranslateScene(state, GAME_STATUS_SCENE_3)
+        break
+      case GAME_EVENT_SCENE_AUCTION:
+        state.auction = data.data
+        internalTranslateScene(state, data.data.status)
+        break
+      case GAME_EVENT_SCENE_AUCTION_SALE:
+        state.auction = data.data
+        internalTranslateScene(state, GAME_STATUS_SCENE_4)
+        break
+      case GAME_EVENT_SCENE_AUCTION_TIME_LOT:
+        state.lotTime = data.data
         break
       default:
         /* eslint-disable no-console */

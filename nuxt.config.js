@@ -63,7 +63,7 @@ export default {
       pathRewrite: { '^/api': '' }
     },
     '/wsapi': {
-      // target: 'ws://localhost:3000/wsapi/1_0/topics',
+      //target: 'ws://localhost:3000/wsapi/1_0/topics',
       // target: 'ws://192.168.5.241:3000/wsapi/1_0/topics',
       target: 'http://smartcity:3000/wsapi/1_0/topics',
       ws: true,

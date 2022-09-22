@@ -73,7 +73,7 @@
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <h1>3</h1>
+        <AuctionLotsViewer />
       </v-stepper-content>
 
       <v-stepper-content step="4">
@@ -102,13 +102,15 @@
 <script>
 import GameWelcomComponent from '~/components/game/welcome.vue'
 import FacilitiesESComponent from '~/components/game/facilities-es.vue'
+import AuctionLotsViewer from '~/components/game/auction-lots.vue'
 
 export default {
   name: 'GamePage',
 
   components: {
     GameWelcomComponent,
-    FacilitiesESComponent
+    FacilitiesESComponent,
+    AuctionLotsViewer
   },
 
   layout: 'game',
