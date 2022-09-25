@@ -21,6 +21,7 @@ import {
   GAME_EVENT_SCENE_AUCTION,
   GAME_EVENT_SCENE_AUCTION_SALE,
   GAME_EVENT_SCENE_AUCTION_TIME_LOT,
+  GAME_EVENT_SCENE_AUCTION_BAY_LOT,
 
   ENERGYSYSTEM_OBJECT_TYPES,
 
@@ -296,6 +297,14 @@ export const mutations = {
   },
   refuseOes (state, data) {
     sendEventMessage(GAME_EVENT_REFUSE_OES, data)
+  },
+  loadAuctionData (state, data) {
+    sendEventMessage(GAME_EVENT_SCENE_AUCTION)
+  },
+  auctionBuyLot (state) {
+    if (state.hasGamer) {
+      sendEventMessage(GAME_EVENT_SCENE_AUCTION_BAY_LOT)
+    }
   }
 }
 
@@ -329,5 +338,11 @@ export const actions = {
   },
   refuseOes (context, data) {
     context.commit('refuseOes', data)
+  },
+  loadAuctionData (context) {
+    context.commit('loadAuctionData')
+  },
+  auctionBuyLot (context) {
+    context.commit('auctionBuyLot')
   }
 }

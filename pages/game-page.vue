@@ -44,7 +44,7 @@
         :complete="sceneNumber > 6"
         step="6"
       >
-        схемы ЭС
+        схема ЭС
       </v-stepper-step>
 
       <v-divider />
@@ -77,7 +77,11 @@
       </v-stepper-content>
 
       <v-stepper-content step="4">
-        <h1>4</h1>
+        <AuctionPurchase />
+        <div class="text-subtitle-1 teal darken-4 mt-2 px-2 py-1 white--text">
+          Приобретенные объекты генерации
+        </div>
+        <AuctionGamerLots />
       </v-stepper-content>
 
       <v-stepper-content step="5">
@@ -103,6 +107,8 @@
 import GameWelcomComponent from '~/components/game/welcome.vue'
 import FacilitiesESComponent from '~/components/game/facilities-es.vue'
 import AuctionLotsViewer from '~/components/game/auction-lots.vue'
+import AuctionPurchase from '~/components/game/auction-purchase.vue'
+import AuctionGamerLots from '~/components/viewers/auction-gamer-lots.vue'
 
 export default {
   name: 'GamePage',
@@ -110,7 +116,9 @@ export default {
   components: {
     GameWelcomComponent,
     FacilitiesESComponent,
-    AuctionLotsViewer
+    AuctionLotsViewer,
+    AuctionPurchase,
+    AuctionGamerLots
   },
 
   layout: 'game',

@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="text-subtitle-1 teal darken-4 px-2 py-1 white--text">
+      Параметры аукциона
+    </div>
+    <div class="ma-2">
+      Начальная стоимость аренды в сутки <strong>{{ startingcost }} руб.</strong>;
+      шаг аукциона <strong>{{ auctionstep }}%</strong> от начальной стоимости аренды;
+      время удержания лота <strong>{{ lotwaiting }} сек.</strong>
+    </div>
+    <div class="text-subtitle-1 teal darken-4 px-2 py-1 white--text">
       Лоты
     </div>
     <v-card
@@ -70,7 +78,9 @@ import {
   ESO_GREEGENERATOR_TYPE,
   ESO_STORAGE_TYPE,
   ESO_GENERATOR_TYPE,
-  ALTERNATION_BY_TYPES
+  ALTERNATION_BY_TYPES,
+
+  roundToTwoAsStr
 } from '~/assets/helpers'
 
 export default {
@@ -125,6 +135,28 @@ export default {
       return this.generators.length === 0 &&
       this.storages.length === 0 &&
       this.greengeneators.length === 0
+    },
+
+    startingcost () {
+      return roundToTwoAsStr(this.$store.state.auction.settings !== undefined
+        ? this.$store.state.auction.settings.startingcost
+        : 0)
+    },
+    auctionstep () {
+      return this.$store.state.auction.settings !== undefined
+        ? this.$store.state.auction.settings.auctionstep
+        : 0
+    },
+    lotwaiting () {
+      return this.$store.state.auction.settings !== undefined
+        ? this.$store.state.auction.settings.lotwaiting
+        : 0
+    }
+  },
+
+  created () {
+    if (process.client && this.$store.state.auction.settings === undefined) {
+      this.$store.dispatch('loadAuctionData')
     }
   }
 }
