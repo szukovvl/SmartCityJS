@@ -41,8 +41,8 @@
       <v-divider />
 
       <v-stepper-step
-        :complete="sceneNumber > 6"
-        step="6"
+        :complete="sceneNumber > 5"
+        step="5"
       >
         схема ЭС
       </v-stepper-step>
@@ -50,15 +50,15 @@
       <v-divider />
 
       <v-stepper-step
-        :complete="sceneNumber > 7"
-        step="7"
+        :complete="sceneNumber > 6"
+        step="6"
       >
         анализ
       </v-stepper-step>
 
       <v-divider />
 
-      <v-stepper-step step="8">
+      <v-stepper-step step="7">
         игра
       </v-stepper-step>
     </v-stepper-header>
@@ -85,7 +85,7 @@
       </v-stepper-content>
 
       <v-stepper-content step="5">
-        <h1>5</h1>
+        <SchemesPreparation />
       </v-stepper-content>
 
       <v-stepper-content step="6">
@@ -94,10 +94,6 @@
 
       <v-stepper-content step="7">
         <h1>7</h1>
-      </v-stepper-content>
-
-      <v-stepper-content step="8">
-        <h1>8</h1>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -109,6 +105,7 @@ import FacilitiesESComponent from '~/components/game/facilities-es.vue'
 import AuctionLotsViewer from '~/components/game/auction-lots.vue'
 import AuctionPurchase from '~/components/game/auction-purchase.vue'
 import AuctionGamerLots from '~/components/viewers/auction-gamer-lots.vue'
+import SchemesPreparation from '~/components/game/schema-preparation.vue'
 
 export default {
   name: 'GamePage',
@@ -118,7 +115,8 @@ export default {
     FacilitiesESComponent,
     AuctionLotsViewer,
     AuctionPurchase,
-    AuctionGamerLots
+    AuctionGamerLots,
+    SchemesPreparation
   },
 
   layout: 'game',

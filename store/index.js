@@ -7,6 +7,7 @@ import {
   GAME_STATUS_SCENE_2,
   GAME_STATUS_SCENE_3,
   GAME_STATUS_SCENE_4,
+  GAME_STATUS_SCENE_5,
 
   GAME_EVENT_STATUS,
   GAME_EVENT_ERROR,
@@ -22,6 +23,8 @@ import {
   GAME_EVENT_SCENE_AUCTION_SALE,
   GAME_EVENT_SCENE_AUCTION_TIME_LOT,
   GAME_EVENT_SCENE_AUCTION_BAY_LOT,
+  GAME_EVENT_GAME_SCENE_SCHEME,
+  GAME_EVENT_GAME_SCHEMA_DATA,
 
   ENERGYSYSTEM_OBJECT_TYPES,
 
@@ -141,7 +144,9 @@ export const state = () => ({
   tariffs: undefined,
   choiceAll: [],
   gamerChoice: [],
-  auction: {}
+  auction: {},
+  schemeData: [],
+  scheme: []
 })
 
 //
@@ -172,6 +177,9 @@ function internalTranslateScene (state, srvstatus) {
       break
     case GAME_STATUS_SCENE_4:
       state.sceneNumber = 4
+      break
+    case GAME_STATUS_SCENE_5:
+      state.sceneNumber = 5
       break
     default:
       /* eslint-disable no-console */
@@ -263,6 +271,13 @@ export const mutations = {
       case GAME_EVENT_SCENE_AUCTION_TIME_LOT:
         state.lotTime = data.data
         break
+      case GAME_EVENT_GAME_SCENE_SCHEME:
+        state.schemeData = data.data
+        internalTranslateScene(state, GAME_STATUS_SCENE_5)
+        break
+      case GAME_EVENT_GAME_SCHEMA_DATA:
+        state.scheme = data.data
+        break
       default:
         /* eslint-disable no-console */
         console.warn('translateEvent - необработанное', data)
@@ -305,6 +320,12 @@ export const mutations = {
     if (state.hasGamer) {
       sendEventMessage(GAME_EVENT_SCENE_AUCTION_BAY_LOT)
     }
+  },
+  loadSchemeScene (state) {
+    sendEventMessage(GAME_EVENT_GAME_SCENE_SCHEME)
+  },
+  loadSchemeData (state) {
+    sendEventMessage(GAME_EVENT_GAME_SCHEMA_DATA)
   }
 }
 
@@ -344,5 +365,9 @@ export const actions = {
   },
   auctionBuyLot (context) {
     context.commit('auctionBuyLot')
+  },
+  requestSchemesData (context, data) {
+    context.commit('loadSchemeScene')
+    context.commit('loadSchemeData')
   }
 }
