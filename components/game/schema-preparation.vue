@@ -1,17 +1,25 @@
 <template>
   <v-row class="mt-2">
-    <v-col
-      v-for="(data, index) in schemeData"
-      :key="data.gamerkey"
-    >
-      <div class="text-subtitle-1 teal darken-4 px-2 py-1 white--text">
-        {{ 'Игрок ' + (index + 1) }}
-      </div>
-      <div>
-        <SchemeOesView :data="scheme.find(e => e.address == data.gamerkey)" />
-        <SchemeView :data="scheme.find(e => e.address == data.gamerkey)" />
-      </div>
-    </v-col>
+    <div v-if="$store.state.hasGamer">
+      <v-col>
+        <SchemeOesView :data="scheme.find(e => e.address == $store.state.gamerKey)" />
+        <SchemeView :data="scheme.find(e => e.address == $store.state.gamerKey)" />
+      </v-col>
+    </div>
+    <div v-else>
+      <v-col
+        v-for="(data, index) in schemeData"
+        :key="data.gamerkey"
+      >
+        <div class="text-subtitle-1 teal darken-4 px-2 py-1 white--text">
+          {{ 'Игрок ' + (index + 1) }}
+        </div>
+        <div>
+          <SchemeOesView :data="scheme.find(e => e.address == data.gamerkey)" />
+          <SchemeView :data="scheme.find(e => e.address == data.gamerkey)" />
+        </div>
+      </v-col>
+    </div>
   </v-row>
 </template>
 

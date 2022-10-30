@@ -50,7 +50,7 @@
             <SchemeDistributorCadr :hub="item" />
           </div>
         </v-row>
-        <v-row>
+        <v-row class="mb-1">
           <div
             v-for="item in districtOes"
             :key="'d_' + item.hub.address"
