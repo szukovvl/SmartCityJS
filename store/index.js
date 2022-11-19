@@ -40,6 +40,10 @@ const LS_GAMER_CARD = 'gamer_card'
 let connection
 
 function wsGameController (context) {
+  if (connection != null) {
+    return
+  }
+
   connection = new WebSocket('ws://' + (location !== undefined ? location.host : '127.0.0.1') + WS_GAME_CONTROLLER_SERVICE)
 
   connection.onmessage = function (event) {
@@ -246,7 +250,6 @@ export const mutations = {
         internalEnterGamerMode(state, data.data)
         break
       case GAME_EVENT_SCENE_IDENTIFY:
-        internalTranslateScene(state, GAME_STATUS_SCENE_1)
         internalLoadGameResources(this)
         break
       case GAME_EVENT_SCENE_CHOICE:
@@ -254,26 +257,21 @@ export const mutations = {
         state.gamerChoice = data.data.gamers !== undefined
           ? data.data.gamers.find(e => e.key === state.gamerKey)
           : []
-        internalTranslateScene(state, GAME_STATUS_SCENE_2)
         break
       case GAME_EVENT_SCENE_AUCTION_PREPARE:
         state.auction = data.data
-        internalTranslateScene(state, GAME_STATUS_SCENE_3)
         break
       case GAME_EVENT_SCENE_AUCTION:
         state.auction = data.data
-        internalTranslateScene(state, data.data.status)
         break
       case GAME_EVENT_SCENE_AUCTION_SALE:
         state.auction = data.data
-        internalTranslateScene(state, GAME_STATUS_SCENE_4)
         break
       case GAME_EVENT_SCENE_AUCTION_TIME_LOT:
         state.lotTime = data.data
         break
       case GAME_EVENT_GAME_SCENE_SCHEME:
         state.schemeData = data.data
-        internalTranslateScene(state, GAME_STATUS_SCENE_5)
         break
       case GAME_EVENT_GAME_SCHEMA_DATA:
         state.scheme = data.data
