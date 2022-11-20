@@ -34,9 +34,6 @@ export default {
 
   methods: {
     doRefuse () {
-      /* eslint-disable no-console */
-      console.log('отказаться', this.consumer.devaddr)
-      /* eslint-enable no-console */
       this.$store.dispatch('refuseOes', this.consumer.devaddr)
     }
   }

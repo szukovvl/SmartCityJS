@@ -2,8 +2,8 @@
   <v-row class="mt-2">
     <div v-if="$store.state.hasGamer">
       <v-col>
-        <SchemeOesView :data="scheme.find(e => e.address == $store.state.gamerKey)" />
-        <SchemeView :data="scheme.find(e => e.address == $store.state.gamerKey)" />
+        <SchemeOesView :data="scheme.find(e => e.address === $store.state.gamerKey)" />
+        <SchemeView :data="scheme.find(e => e.address === $store.state.gamerKey)" />
       </v-col>
     </div>
     <div v-else>

@@ -8,6 +8,7 @@ import {
   GAME_STATUS_SCENE_3,
   GAME_STATUS_SCENE_4,
   GAME_STATUS_SCENE_5,
+  GAME_PROCESS,
 
   GAME_EVENT_STATUS,
   GAME_EVENT_ERROR,
@@ -25,6 +26,9 @@ import {
   GAME_EVENT_SCENE_AUCTION_BAY_LOT,
   GAME_EVENT_GAME_SCENE_SCHEME,
   GAME_EVENT_GAME_SCHEMA_DATA,
+  GAME_EVENT_GAME_PROCESS_START,
+  GAME_EVENT_GAME_PROCESS_DATA,
+  GAME_EVENT_GAME_PROCESS_ITERATION,
 
   ENERGYSYSTEM_OBJECT_TYPES,
 
@@ -150,7 +154,9 @@ export const state = () => ({
   gamerChoice: [],
   auction: {},
   schemeData: [],
-  scheme: []
+  scheme: [],
+  prepareData: [],
+  datasets: []
 })
 
 //
@@ -184,6 +190,9 @@ function internalTranslateScene (state, srvstatus) {
       break
     case GAME_STATUS_SCENE_5:
       state.sceneNumber = 5
+      break
+    case GAME_PROCESS:
+      state.sceneNumber = 6
       break
     default:
       /* eslint-disable no-console */
@@ -276,6 +285,16 @@ export const mutations = {
       case GAME_EVENT_GAME_SCHEMA_DATA:
         state.scheme = data.data
         break
+      case GAME_EVENT_GAME_PROCESS_DATA:
+      case GAME_EVENT_GAME_PROCESS_START:
+        state.prepareData = data.data
+        break
+      case GAME_EVENT_GAME_PROCESS_ITERATION: {
+        const newdata = state.datasets.filter(e => e.key !== data.data.key)
+        newdata.push(data.data)
+        state.datasets = newdata
+        break
+      }
       default:
         /* eslint-disable no-console */
         console.warn('translateEvent - необработанное', data)
@@ -324,6 +343,12 @@ export const mutations = {
   },
   loadSchemeData (state) {
     sendEventMessage(GAME_EVENT_GAME_SCHEMA_DATA)
+  },
+  requestGameStatus (state) {
+    sendEventMessage(GAME_EVENT_STATUS)
+  },
+  requestProcessData (state) {
+    sendEventMessage(GAME_EVENT_GAME_PROCESS_DATA)
   }
 }
 
@@ -367,5 +392,11 @@ export const actions = {
   requestSchemesData (context, data) {
     context.commit('loadSchemeScene')
     context.commit('loadSchemeData')
+  },
+  requestGameStatus (context) {
+    context.commit('requestGameStatus')
+  },
+  requestProcessData (context) {
+    context.commit('requestProcessData')
   }
 }

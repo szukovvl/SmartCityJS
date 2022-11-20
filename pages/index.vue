@@ -36,6 +36,9 @@ export default {
   },
 
   created () {
+    if (process.client) {
+      this.$store.dispatch('requestGameStatus')
+    }
   },
 
   methods: {
