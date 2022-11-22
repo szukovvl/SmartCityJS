@@ -1,26 +1,40 @@
 <template>
-  <v-row class="mt-2">
-    <div v-if="$store.state.hasGamer">
-      <v-col>
-        <SchemeOesView :data="scheme.find(e => e.address === $store.state.gamerKey)" />
-        <SchemeView :data="scheme.find(e => e.address === $store.state.gamerKey)" />
-      </v-col>
-    </div>
-    <div v-else>
-      <v-col
-        v-for="(data, index) in schemeData"
-        :key="data.gamerkey"
+  <div>
+    <v-row class="mt-2">
+      <div v-if="hasGamer">
+        <v-col>
+          <SchemeOesView :data="scheme.find(e => e.address === $store.state.gamerKey)" />
+          <SchemeView :data="scheme.find(e => e.address === $store.state.gamerKey)" />
+        </v-col>
+      </div>
+      <div v-else>
+        <v-col
+          v-for="(data, index) in schemeData"
+          :key="data.gamerkey"
+        >
+          <div class="text-subtitle-1 teal darken-4 px-2 py-1 white--text">
+            {{ 'Игрок ' + (index + 1) }}
+          </div>
+          <div>
+            <SchemeOesView :data="scheme.find(e => e.address == data.gamerkey)" />
+            <SchemeView :data="scheme.find(e => e.address == data.gamerkey)" />
+          </div>
+        </v-col>
+      </div>
+    </v-row>
+    <div
+      v-if="hasGamer"
+      class="d-flex justify-center"
+    >
+      <v-btn
+        class="ma-2"
+        color="success"
+        @click="doCompletted"
       >
-        <div class="text-subtitle-1 teal darken-4 px-2 py-1 white--text">
-          {{ 'Игрок ' + (index + 1) }}
-        </div>
-        <div>
-          <SchemeOesView :data="scheme.find(e => e.address == data.gamerkey)" />
-          <SchemeView :data="scheme.find(e => e.address == data.gamerkey)" />
-        </div>
-      </v-col>
+        готово
+      </v-btn>
     </div>
-  </v-row>
+  </div>
 </template>
 
 <script>
@@ -36,6 +50,9 @@ export default {
   }),
 
   computed: {
+    hasGamer () {
+      return this.$store.state.hasGamer
+    },
     schemeData () {
       const items = this.$store.state.schemeData
       return items !== undefined ? items : []
@@ -54,6 +71,11 @@ export default {
       this.$store.state.scheme.length === 0) {
         this.$store.dispatch('requestSchemesData')
       }
+    }
+  },
+
+  methods: {
+    doCompletted () {
     }
   }
 }

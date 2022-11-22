@@ -27,6 +27,18 @@
     >
       объекты не найдены
     </div>
+    <div
+      v-if="hasGamer"
+      class="d-flex justify-center"
+    >
+      <v-btn
+        class="ma-2"
+        color="success"
+        @click="doCompletted"
+      >
+        готово
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -49,6 +61,9 @@ export default {
   }),
 
   computed: {
+    hasGamer () {
+      return this.$store.state.hasGamer
+    },
     gamerKey () {
       return this.$store.state.gamerKey
     },
@@ -79,6 +94,11 @@ export default {
         price: roundToTwoAsStr(e.price),
         oes: this.allGenerators.find(item => item.devaddr === e.key)
       })).filter(e => e.oes !== undefined)
+    }
+  },
+
+  methods: {
+    doCompletted () {
     }
   }
 }

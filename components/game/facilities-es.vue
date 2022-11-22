@@ -25,7 +25,7 @@
       </v-card-text>
     </v-card>
     <v-card
-      v-if="aregiven.length !== 0"
+      v-if="availconsumers.length !== 0"
       flat
     >
       <v-card-subtitle>
@@ -58,7 +58,7 @@
       </v-card-text>
     </v-card>
     <v-card
-      v-if="aregiven.length !== 0"
+      v-if="mychoice.length !== 0"
       flat
     >
       <v-card-subtitle>
@@ -89,16 +89,19 @@
       <v-card-text v-else>
         ничего не выбрано
       </v-card-text>
-      <v-card-text class="d-flex justify-center">
-        <v-btn
-          class="ma-2"
-          color="success"
-          @click="doCompletted"
-        >
-          готово
-        </v-btn>
-      </v-card-text>
     </v-card>
+    <div
+      v-if="hasGamer"
+      class="d-flex justify-center"
+    >
+      <v-btn
+        class="ma-2"
+        color="success"
+        @click="doCompletted"
+      >
+        готово
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -131,6 +134,9 @@ export default {
   }),
 
   computed: {
+    hasGamer () {
+      return this.$store.state.hasGamer
+    },
     sceneData () {
       return this.$store.state.scenesData !== undefined
         ? this.$store.state.scenesData.find(e => e.mainstation === this.$store.state.gamerKey)

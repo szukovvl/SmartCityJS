@@ -65,6 +65,18 @@
     <p v-if="notFound">
       элементы генерации не найдены
     </p>
+    <div
+      v-if="hasGamer"
+      class="d-flex justify-center"
+    >
+      <v-btn
+        class="ma-2"
+        color="success"
+        @click="doCompletted"
+      >
+        готово
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -102,6 +114,9 @@ export default {
   }),
 
   computed: {
+    hasGamer () {
+      return this.$store.state.hasGamer
+    },
     auctionLots () {
       return this.$store.state.auction !== undefined && this.$store.state.auction.lots !== undefined
         ? this.$store.state.auction.lots
@@ -157,6 +172,11 @@ export default {
   created () {
     if (process.client && this.$store.state.auction.settings === undefined) {
       this.$store.dispatch('loadAuctionData')
+    }
+  },
+
+  methods: {
+    doCompletted () {
     }
   }
 }
