@@ -15,6 +15,10 @@
         alt="SmartCityJS"
       />
 
+      <v-toolbar-title v-if="titleText !== undefined">
+        {{ titleText }}
+      </v-toolbar-title>
+
       <v-spacer />
     </v-app-bar>
 
@@ -85,6 +89,12 @@ export default {
       return this.$store.state.errorEvent !== undefined
         ? this.$store.state.errorEvent.data.errorMessage
         : 'Ошибка сервиса'
+    },
+    gamerCard () {
+      return this.$store.state.gamerCard !== undefined ? this.$store.state.gamerCard : { }
+    },
+    titleText () {
+      return this.gamerCard.commandname
     }
   },
 

@@ -311,6 +311,7 @@ export const mutations = {
     if (state.hasGamer) {
       sendEventMessage(SCENE_EVENT_COMPLETTE_IDENTIFY, JSON.stringify(carddata))
     }
+    state.gamerCard = carddata
   },
   clearErrorService (state) {
     state.errorEvent = undefined
