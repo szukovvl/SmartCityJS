@@ -89,7 +89,8 @@ import AuctionGamerLots from '~/components/viewers/auction-gamer-lots.vue'
 import SchemesPreparation from '~/components/game/schema-preparation.vue'
 import GameGlobalComponent from '~/components/gameprocess/game-process-global.vue'
 import {
-  GAME_PROCESS
+  GAME_PROCESS,
+  GAME_STOPPING
 } from '~/assets/helpers'
 
 export default {
@@ -116,7 +117,8 @@ export default {
       return this.$store.state.sceneNumber
     },
     inGameProcess () {
-      return this.$store.state.gameStatus === GAME_PROCESS
+      return this.$store.state.gameStatus === GAME_PROCESS ||
+      this.$store.state.gameStatus === GAME_STOPPING
     }
   },
 

@@ -9,6 +9,7 @@ import {
   GAME_STATUS_SCENE_4,
   GAME_STATUS_SCENE_5,
   GAME_PROCESS,
+  GAME_STOPPING,
 
   GAME_EVENT_STATUS,
   GAME_EVENT_ERROR,
@@ -192,7 +193,7 @@ function internalTranslateScene (state, srvstatus) {
       state.sceneNumber = 5
       break
     case GAME_PROCESS:
-      state.sceneNumber = 6
+    case GAME_STOPPING:
       break
     default:
       /* eslint-disable no-console */
